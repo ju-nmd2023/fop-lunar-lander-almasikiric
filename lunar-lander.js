@@ -17,11 +17,6 @@ function scenery() {
   pop();
 }
 
-//Starts/pushes the function
-function draw() {
-  scenery();
-}
-
 //Spaceship, x and y coordinates as parametres and movement.
 
 function spaceship(x, y) {
@@ -50,7 +45,7 @@ function spaceship(x, y) {
   //FACE OF THE BUNNY
   push();
   fill(255, 255, 255, 200);
-  ellipse(-0.8, -14, 40, 45);
+  ellipse(-0, -14, 40, 45);
 
   // white part, eyes
   fill(255);
@@ -64,7 +59,7 @@ function spaceship(x, y) {
 
   // mouth
   fill(255, 100, 170);
-  ellipse(-0.8, -5, 5);
+  ellipse(-0, -5, 5);
 
   // mustache left side
   stroke(0);
@@ -72,8 +67,8 @@ function spaceship(x, y) {
   line(-5, -5, -15, -10);
 
   // mustache right side
-  line(4.5, -4, 13.2, -1);
-  line(4, -5, 15, -10);
+  line(5, -5, 15, -2);
+  line(5, -5, 15, -10);
   pop();
 
   // Glass dome
@@ -87,67 +82,24 @@ function spaceship(x, y) {
   pop();
 }
 
-//Access the function
-function draw() {
-  scenery();
-  spaceship(100, 100);
-}
-
 // Add gravity to the spaceship by using a variable for the Y-position of the spaceship. We also added velocity and acceleration.
 let spaceshipY = 100;
 let velocity = 0.5;
 const acceleration = 0.1; //It will go faster with each frame.
 
-function draw() {
-  scenery();
-  spaceship(100, spaceshipY);
-
-  spaceshipY = spaceshipY + velocity;
-  velocity = velocity + acceleration;
-}
-
-// The spaceship should eventually accelerate when clicking the mouse.
-function draw() {
-  scenery();
-  spaceship(100, spaceshipY);
-
-  spaceshipY = spaceshipY + velocity;
-  velocity = velocity + acceleration;
-
-  // CONTROLS, when mouse is pressed the spaceship will brake and then move up, accelerate.
-  if (mouseIsPressed) {
-    velocity = velocity - 0.45;
-  }
-}
-
 // Detect the collision between the spaceship and the ground. If the spaceship collides, the game should stop.
-let = gameIsRunning = true;
-
-// Copied from last step
-function draw() {
-  scenery();
-  spaceship(100, spaceshipY);
-
-  if (gameIsRunning === true) {
-    spaceshipY = spaceshipY + velocity;
-    velocity = velocity + acceleration;
-
-    // CONTROLS, when mouse is pressed the spaceship will brake and then move up, accelerate.
-    if (mouseIsPressed) {
-      velocity = velocity - 0.2;
-    }
-
-    // spaceship Collision, if the spaceship is greater than 200 (the ground start X-coordinate) it will automatically collide.
-    if (spaceshipY > 200) {
-      gameIsRunning = false;
-      console.log("Game Over");
-    }
-  }
-}
+let gameState = "start";
 
 // Adding obstacles and they should move to the left.
 let barnX = 600;
 
+// LOSE SCREEN
+function loseScreen() {
+  if (gameState === "lose") {
+    fill(0, 0, 0, 150);
+    rect(0, 0, 700, 700);
+  }
+}
 function barn(x, y) {
   push();
   translate(x, y);
@@ -160,8 +112,9 @@ function draw() {
   scenery();
   barn(barnX, 160);
   spaceship(100, spaceshipY);
+  loseScreen();
 
-  if (gameIsRunning === true) {
+  if (gameState === "game") {
     barnX = barnX - 2;
 
     if (barnX < -100) {
@@ -177,8 +130,17 @@ function draw() {
 
     // Spaceship Collision, if the spaceship is greater than 200 (the ground start X-coordinate) it will automatically collide.
     if (spaceshipY > 200) {
-      gameIsRunning = false;
+      gameState = "lose";
       console.log("Game Over");
     }
+  }
+  console.log(gameState);
+}
+
+function mouseClicked() {
+  if (gameState === "start" || gameState === "lose") {
+    gameState = "game";
+    spaceshipY = 100;
+    velocity = 0.5;
   }
 }
