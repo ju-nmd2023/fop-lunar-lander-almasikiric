@@ -28,16 +28,61 @@ function spaceship(x, y) {
   push();
   translate(x, y);
 
-  // Saucer (red part)
-  fill(255, 0, 0);
-  ellipse(0, 0, 80, 30);
+  // THE SHIP (black part)
+  fill(0, 0, 0);
+  ellipse(0, 10, 100, 250);
+
+  // ENGINE
+
+  // BUNNY EARS
+  //white part of bunny ears
+  stroke(0);
+  fill(255, 255, 255, 200);
+  ellipse(10, -50, 15, 36);
+  ellipse(-12, -50, 15, 36);
+
+  //pink part
+  fill(255, 100, 170);
+  ellipse(-12, -50, 10, 27);
+  ellipse(10, -50, 7.5, 27);
+  fill(255, 255, 255, 160);
+
+  //FACE OF THE BUNNY
+  push();
+  fill(255, 255, 255, 200);
+  ellipse(-0.8, -14, 40, 45);
+
+  // white part, eyes
+  fill(255);
+  ellipse(-7, -20, 9, 13);
+  ellipse(7, -20, 9, 13);
+
+  //pupils
+  fill(0);
+  ellipse(-7, -20, 5.5);
+  ellipse(7, -20, 5.5);
+
+  // mouth
+  fill(255, 100, 170);
+  ellipse(-0.8, -5, 5);
+
+  // mustache left side
+  stroke(0);
+  line(-5, -5, -15, -2);
+  line(-5, -5, -15, -10);
+
+  // mustache right side
+  line(4.5, -4, 13.2, -1);
+  line(4, -5, 15, -10);
+  pop();
 
   // Glass dome
-  fill(255, 255, 255, 160);
+  stroke(0);
   beginShape();
-  vertex(-20, 0);
-  bezierVertex(-20, 5, 20, 5, 20, 0);
-  bezierVertex(20, -40, -20, -40, -20, 0);
+  vertex(-50, 0);
+  bezierVertex(-50, 12.5, 50, 12.5, 50, 0);
+  bezierVertex(50, -100, -50, -100, -50, 0);
+  endShape();
   endShape();
   pop();
 }
