@@ -24,7 +24,7 @@ function draw() {
 
 //Spaceship, x and y coordinates as parametres and movement.
 
-function ufo(x, y) {
+function spaceship(x, y) {
   push();
   translate(x, y);
 
@@ -45,55 +45,55 @@ function ufo(x, y) {
 //Access the function
 function draw() {
   scenery();
-  ufo(100, 100);
+  spaceship(100, 100);
 }
 
-// Add gravity to the UFO by using a variable for the Y-position of the UFO. We also added velocity and acceleration.
-let ufoY = 100;
+// Add gravity to the spaceship by using a variable for the Y-position of the spaceship. We also added velocity and acceleration.
+let spaceshipY = 100;
 let velocity = 0.5;
 const acceleration = 0.1; //It will go faster with each frame.
 
 function draw() {
   scenery();
-  ufo(100, ufoY);
+  spaceship(100, spaceshipY);
 
-  ufoY = ufoY + velocity;
+  spaceshipY = spaceshipY + velocity;
   velocity = velocity + acceleration;
 }
 
 // The spaceship should eventually accelerate when clicking the mouse.
 function draw() {
   scenery();
-  ufo(100, ufoY);
+  spaceship(100, spaceshipY);
 
-  ufoY = ufoY + velocity;
+  spaceshipY = spaceshipY + velocity;
   velocity = velocity + acceleration;
 
-  // CONTROLS, when mouse is pressed the UFO will brake and then move up, accelerate.
+  // CONTROLS, when mouse is pressed the spaceship will brake and then move up, accelerate.
   if (mouseIsPressed) {
     velocity = velocity - 0.45;
   }
 }
 
-// Detect the collision between the UFO and the ground. If the UFO collides, the game should stop.
+// Detect the collision between the spaceship and the ground. If the spaceship collides, the game should stop.
 let = gameIsRunning = true;
 
 // Copied from last step
 function draw() {
   scenery();
-  ufo(100, ufoY);
+  spaceship(100, spaceshipY);
 
   if (gameIsRunning === true) {
-    ufoY = ufoY + velocity;
+    spaceshipY = spaceshipY + velocity;
     velocity = velocity + acceleration;
 
-    // CONTROLS, when mouse is pressed the UFO will brake and then move up, accelerate.
+    // CONTROLS, when mouse is pressed the spaceship will brake and then move up, accelerate.
     if (mouseIsPressed) {
       velocity = velocity - 0.2;
     }
 
-    // UFO Collision, if the UFO is greater than 200 (the ground start X-coordinate) it will automatically collide.
-    if (ufoY > 200) {
+    // spaceship Collision, if the spaceship is greater than 200 (the ground start X-coordinate) it will automatically collide.
+    if (spaceshipY > 200) {
       gameIsRunning = false;
       console.log("Game Over");
     }
@@ -114,7 +114,7 @@ function barn(x, y) {
 function draw() {
   scenery();
   barn(barnX, 160);
-  ufo(100, ufoY);
+  spaceship(100, spaceshipY);
 
   if (gameIsRunning === true) {
     barnX = barnX - 2;
@@ -122,16 +122,16 @@ function draw() {
     if (barnX < -100) {
       barnX = width;
     }
-    ufoY = ufoY + velocity;
+    spaceshipY = spaceshipY + velocity;
     velocity = velocity + acceleration;
 
-    // CONTROLS, when mouse is pressed the UFO will brake and then move up, accelerate.
+    // CONTROLS, when mouse is pressed the spaceship will brake and then move up, accelerate.
     if (mouseIsPressed) {
       velocity = velocity - 0.2;
     }
 
-    // UFO Collision, if the UFO is greater than 200 (the ground start X-coordinate) it will automatically collide.
-    if (ufoY > 200) {
+    // Spaceship collision, if the spaceship is greater than 200 (the ground start X-coordinate) it will automatically collide.
+    if (spaceshipY > 200) {
       gameIsRunning = false;
       console.log("Game Over");
     }
