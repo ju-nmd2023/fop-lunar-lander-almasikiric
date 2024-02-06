@@ -130,7 +130,7 @@ function draw() {
       velocity = velocity - 0.2;
     }
 
-    // Spaceship collision, if the spaceship is greater than 200 (the ground start X-coordinate) it will automatically collide.
+    // Spaceship Collision, if the spaceship is greater than 200 (the ground start X-coordinate) it will automatically collide.
     if (spaceshipY > 200) {
       gameIsRunning = false;
       console.log("Game Over");
