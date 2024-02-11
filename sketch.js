@@ -1,5 +1,5 @@
 function setup() {
-  createCanvas(800, 300); // 800 horizontal, 300 up and height
+  createCanvas(800, 800); // 800 horizontal, 800 up and height
   background(255, 255, 255);
 }
 
@@ -13,9 +13,10 @@ function scenery() {
 
   // Draw the ground
   fill("green");
-  rect(0, 200, width, 100);
+  rect(0, 400, width, 100);
   pop();
 }
+
 
 //Spaceship, x and y coordinates as parametres and movement.
 
@@ -111,6 +112,7 @@ function barn(x, y) {
 function draw() {
   scenery();
   barn(barnX, 160);
+  //Center here 
   spaceship(100, spaceshipY);
   loseScreen();
 
