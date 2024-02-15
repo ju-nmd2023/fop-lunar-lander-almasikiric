@@ -17,7 +17,6 @@ function scenery() {
   pop();
 }
 
-
 //Spaceship, x and y coordinates as parametres and movement.
 
 function spaceship(x, y) {
@@ -112,37 +111,32 @@ function barn(x, y) {
 function draw() {
   scenery();
   barn(barnX, 160);
-  //Center here 
+  //Center here
   spaceship(100, spaceshipY);
   loseScreen();
 
   if (gameState === "game") {
-    barnX = barnX - 2;
-
-    if (barnX < -100) {
-      barnX = width;
-    }
-    spaceshipY = spaceshipY + velocity;
-    velocity = velocity + acceleration;
-
-    // CONTROLS, when mouse is pressed the spaceship will brake and then move up, accelerate.
-    if (mouseIsPressed) {
-      velocity = velocity - 0.2;
-    }
-
-    // Spaceship Collision, if the spaceship is greater than 200 (the ground start X-coordinate) it will automatically collide.
-    if (spaceshipY > 200) {
-      gameState = "lose";
-      console.log("Game Over");
-    }
   }
-  console.log(gameState);
+  spaceshipY = spaceshipY + speed;
+  speed = speed + acceleration;
+
+  // CONTROLS, when mouse is pressed the spaceship will brake and then move up, accelerate.
+  if (mouseIsPressed) {
+    speed = speed - 0.2;
+  }
+
+  // Spaceship Collision, if the spaceship is greater than 200 (the ground start X-coordinate) it will automatically collide.
+  if (spaceshipY > 200) {
+    gameState = "lose";
+    console.log("Game Over");
+  }
 }
+console.log(gameState);
 
 function mouseClicked() {
   if (gameState === "start" || gameState === "lose") {
     gameState = "game";
     spaceshipY = 100;
-    velocity = 0.5;
+    speed = 0.5;
   }
 }

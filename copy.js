@@ -1,28 +1,26 @@
-let drawBunnyY = 100;
-
 function setup() {
-  createCanvas(600, 1000); // 600 x horizontal, 1000 up and 1000
+  createCanvas(600, 1000); // 600 x horizontal, 1000 up and height
 }
-
+let bunnySpeed = 0;
 // THE BACKGROUND
 function scenery() {
   push();
   noStroke();
   // Draw the sky
   fill(143, 207, 255);
-  rect(0, 0, 600, 200);
+  rect(0, 0, width, 200);
   fill(159, 214, 255);
-  rect(0, 150, 600, 300);
+  rect(0, 150, width, 300);
 
   // Draw the ground
   fill(39, 174, 96);
-  rect(0, 350, 600, 200);
+  rect(0, 350, width, 200);
   pop();
 }
 
 // Accesses the funtion scenery so it draws on the canvas.
 function drawBunny(y) {
-  translate(600 / 2, 1000 / 6 + y);
+  translate(width / 2, height / 4 + y);
   scale(0.71);
   push();
 
@@ -129,7 +127,7 @@ function drawBunny(y) {
   pop();
 
   //balloon
-  translate(-66 * (600 / 600), -160 * (1000 / 1000));
+  translate(-66 * (width / 600), -160 * (height / 1000));
 
   noFill(0);
   beginShape();
@@ -143,22 +141,40 @@ function drawBunny(y) {
 }
 
 // START SCREEN, GAME SCREEN, GAME OVER.
-let velocity = 0.5;
-let acceleration = 0.05; //It will go faster with each frame.
+
 function draw() {
   scenery();
-  drawBunny(drawBunnyY);
-  //ADDING CONTROLS
-  // Add gravity to the bunny by using a variable for the Y-position of the bunny. We also added velocity and acceleration.
+  drawBunny(bunnySpeed);
 
-  drawBunnyY += velocity;
-  velocity += acceleration;
+  let gameState = "start";
 
-  if (mouseIsPressed) {
-    acceleration = -0.05;
-  } else {
-    acceleration = 0.05;
-  }
+  function mouseClicked() {
+      
+      if(gameState===game) {
+          
+          
+          
+          
+          spaceshipY = spaceshipY + velocity;
+          velocity = velocity + acceleration;
+          
+          // CONTROLS, when mouse is pressed the spaceship will brake and then move up, accelerate.
+          if (mouseIsPressed) {
+              velocity = velocity - 0.2;
+            }
+        }
+        
+        // Spaceship Collision, if the spaceship is greater than 200 (the ground start X-coordinate) it will automatically collide.
+        if (drawBunny > 200) {
+            gameState = "lose";
+            console.log("Game Over");
+        }
+        
+        if (gameState === "start" || gameState === "lose") {
+        
+    }
+}
+
 }
 
 // LOSE SCREEN

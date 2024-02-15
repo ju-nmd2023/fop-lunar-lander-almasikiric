@@ -19,8 +19,9 @@ function scenery() {
 }
 
 // Accesses the funtion scenery so it draws on the canvas.
-function drawBunny() {
-  translate(width / 2, height / 4);
+function drawBunny(bunnyMovedY) {
+  push();
+  translate(width / 2, height / 6 + bunnyMovedY);
   scale(0.71);
   push();
 
@@ -138,28 +139,77 @@ function drawBunny() {
   //Red part
   fill(255, 0, 0);
   ellipse(10, -28, 45, 60);
+  pop();
 }
 
-let gameState = "start";
-
 // START SCREEN, GAME SCREEN, GAME OVER.
+let bunnyMovedY = 0;
+let speed = 0.5;
+let acceleration = 0.05;
 
 function draw() {
   scenery();
-  drawBunny();
-}
-function mouseClicked() {
-  if (gameState === "start" || gameState === "lose") {
-    gameState = "game";
-    spaceshipY = 100;
-    velocity = 0.5;
-  }
-}
+  drawBunny(bunnyMovedY);
+  bunnyMovedY += speed;
+  speed += acceleration;
+  landing();
 
-// LOSE SCREEN
-function loseScreen() {
+  if (mouseIsPressed) {
+    acceleration = -0.05;
+  } else {
+    acceleration = 0.05;
+  }
+
+  if (gameState === "start" || gameState === "lose" || gameState === "win") {
+    acceleration = 0;
+    speed = 0;
+    if (mouseIsPressed) {
+      gameState = "game";
+      bunnyMovedY = 0;
+      speed = 1;
+      acceleration = -0.05;
+    }
+  }
+
+  // LOSE SCREEN
   if (gameState === "lose") {
     fill(0, 0, 0, 150);
     rect(0, 0, 700, 700);
+  }
+
+  // WIN SCREEN
+
+  if (gameState === "win") {
+    fill(255, 0, 0);
+    rect(0, 0, 700, 700);
+  }
+}
+
+/* To do
+if bunny-y is on the grass line at too high velocity, you'll lose. if you land smoothly you win! create if statements
+
+
+*/
+
+//ADDING CONTROLS
+// Add gravity to the bunny by using a variable for the Y-position of the bunny. We also added velocity and acceleration.
+
+//It will go faster with each frame.
+
+let gameState = "start";
+
+function mouseClicked() {}
+
+if (gameState === "game") {
+  bunnyMovedY = bunnyMovedY + speed;
+  speed = speed + acceleration;
+}
+function landing() {
+  if (bunnyMovedY > 205) {
+    if (speed > 1) {
+      gameState = "lose";
+    } else {
+      gameState = "win";
+    }
   }
 }
