@@ -1,5 +1,7 @@
 function setup() {
   createCanvas(600, 1000); // 600 x horizontal, 1000 up and height
+  fill(255, 0, 0);
+  rect(0, 0, 700, 700);
 }
 
 // THE BACKGROUND
@@ -21,9 +23,6 @@ function scenery() {
 // Accesses the funtion scenery so it draws on the canvas.
 function drawBunny(bunnyMovedY) {
   push();
-  translate(width / 2, height / 6 + bunnyMovedY);
-  scale(0.71);
-  push();
 
   // BUNNY EARS
   //white part of bunny ears
@@ -37,7 +36,6 @@ function drawBunny(bunnyMovedY) {
   // left ear
   push();
   rotate(PI / -9);
-
   ellipse(3, -50, 15, 36);
   pop();
 
@@ -137,9 +135,8 @@ function drawBunny(bunnyMovedY) {
   endShape();
 
   //Red part
-  fill(255, 0, 0);
+  fill(0, 255, 0);
   ellipse(10, -28, 45, 60);
-  pop();
 }
 
 // START SCREEN, GAME SCREEN, GAME OVER.
@@ -148,13 +145,35 @@ let speed = 0.5;
 let acceleration = 0.05;
 
 function draw() {
+  if (gameState == "start") {
+    scenery();
+    drawBunny();
+    // rita ut startskärm
+    // när man vill starta, ändra state till game
+  } else if (gameState == "game") {
+    scenery();
+    // rita ut spelskärmen
+    // räkna ut grejer
+    // rita kanin etc
+    // kontrollera om man spelat klart och sätt state till rätt isf
+  } else if (gameState == "win") {
+    scenery();
+    // rita ut win-skärmen
+    // rita kanin
+  } else if (gameState == "lose") {
+    scenery();
+    // rita ut lose-skärmen
+    // rita kanin
+    // rita kryssögon
+  }
+
   scenery();
   drawBunny(bunnyMovedY);
-  bunnyMovedY += speed;
-  speed += acceleration;
+  bunnyMovedY = bunnyMovedY + speed;
+  speed = speed + acceleration;
   landing();
 
-  if (mouseIsPressed) {
+  if (keyIsDown(38) || keyIsDown(87)) {
     acceleration = -0.05;
   } else {
     acceleration = 0.05;
@@ -167,7 +186,7 @@ function draw() {
       gameState = "game";
       bunnyMovedY = 0;
       speed = 1;
-      acceleration = -0.05;
+      acceleration = -0.25;
     }
   }
 
@@ -180,7 +199,7 @@ function draw() {
   // WIN SCREEN
 
   if (gameState === "win") {
-    fill(255, 0, 0);
+    fill(255, 0, 150);
     rect(0, 0, 700, 700);
   }
 }
@@ -206,9 +225,9 @@ if (gameState === "game") {
 }
 function landing() {
   if (bunnyMovedY > 205) {
-    if (speed > 1) {
+    if (speed > 2) {
       gameState = "lose";
-    } else {
+    } else if (speed > 0) {
       gameState = "win";
     }
   }

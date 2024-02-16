@@ -1,32 +1,28 @@
+let gameState = "start";
+
 function setup() {
-  createCanvas(600, 1000); // 600 x horizontal, 1000 up and height
-  fill(255, 0, 0);
-  rect(0, 0, 700, 700);
+  //rewrite to work at all screen sizes
+  createCanvas(width, height);
 }
 
-// THE BACKGROUND
 function scenery() {
   push();
   noStroke();
+  // Draw the ground
+  //Ground starts after two thirds of the display y = (2/3) * height
+  fill(39, 174, 96);
+  rect(0, height / 1.5, width, height);
+  //Lighter sky
+  fill(159, 214, 255);
+  rect(0, 0, width, height / 1.5);
   // Draw the sky
   fill(143, 207, 255);
-  rect(0, 0, width, 200);
-  fill(159, 214, 255);
-  rect(0, 150, width, 300);
-
-  // Draw the ground
-  fill(39, 174, 96);
-  rect(0, 350, width, 200);
+  rect(0, 0, width, height / 3);
   pop();
 }
 
-// Accesses the funtion scenery so it draws on the canvas.
-function drawBunny(bunnyMovedY) {
+function drawBunny() {
   push();
-  translate(width / 2, height / 6 + bunnyMovedY);
-  scale(0.71);
-  push();
-
   // BUNNY EARS
   //white part of bunny ears
   stroke(0);
@@ -61,6 +57,13 @@ function drawBunny(bunnyMovedY) {
   fill(255, 255, 255);
   ellipse(-0, -14, 40, 45);
 
+  //draw cross eyes when the player loses
+  if(gameState == "lose"){
+
+
+  }
+  //Draw normal eyes if the player hasnt lost
+  else {
   // white part, eyes
   fill(255);
   ellipse(-7, -20, 9, 13);
@@ -70,6 +73,8 @@ function drawBunny(bunnyMovedY) {
   fill(0);
   ellipse(-7, -20, 5.5);
   ellipse(7, -20, 5.5);
+}
+
 
   // mouth
   fill(255, 100, 170);
@@ -129,7 +134,7 @@ function drawBunny(bunnyMovedY) {
   pop();
 
   //balloon
-  translate(-66 * (width / 600), -160 * (height / 1000));
+  translate(-69, -77);
 
   noFill(0);
   beginShape();
@@ -140,99 +145,90 @@ function drawBunny(bunnyMovedY) {
   //Red part
   fill(0, 255, 0);
   ellipse(10, -28, 45, 60);
-  pop();
 }
 
-// START SCREEN, GAME SCREEN, GAME OVER.
+//Initialize variables for draw that can be used elsewhere
 let bunnyMovedY = 0;
 let speed = 0.5;
 let acceleration = 0.05;
 
+function checkWinLose() {
+  if (bunnyMovedY > height*(1.15/3)) {
+    if (speed > 1.4) {
+      gameState = "lose";
+    } else {
+      gameState = "win";
+    }
+  }
+}
+
 function draw() {
+  //Start screen
   if (gameState == "start") {
-    scenery();
     // rita ut startskärm
+    fill(255);
+    rect(0, 0, width, height);
     // när man vill starta, ändra state till game
+    //Game
   } else if (gameState == "game") {
-    scenery();
-    drawBunny(bunnyMovedY);
     // rita ut spelskärmen
-    // räkna ut grejer
+    scenery();
     // rita kanin etc
+    //Bunny
+    push();
+    //Control bunny position using bunnyMovedY variable.
+    translate(width / 2, height / 6 + bunnyMovedY);
+    //Change bunny size depending on screen size
+    scale((2 / 1500) * height);
+    drawBunny();
+    pop();
+
+    //calculate speed of bunny
+    bunnyMovedY = bunnyMovedY + speed;
+    speed = speed + acceleration;
+
+    // räkna ut grejer
+    //control bunny acceleration
+    if (keyIsDown(38) || keyIsDown(87)) {
+      acceleration = -0.05;
+    } else {
+      acceleration = 0.05;
+    }
+
     // kontrollera om man spelat klart och sätt state till rätt isf
+    checkWinLose();
   } else if (gameState == "win") {
     scenery();
-    // rita ut win-skärmen
     // rita kanin
+    push();
+    translate(width / 2, height * (1.66 / 3));
+    //Change bunny size depending on screen size
+    scale((2 / 1500) * height);
+    drawBunny();
+    pop();
+    // rita ut win-skärmen
+    fill(0, 255, 0, 150);
+    rect(0, 0, width, height);
   } else if (gameState == "lose") {
     scenery();
-    // rita ut lose-skärmen
     // rita kanin
-    // rita kryssögon
+    push();
+    translate(width / 2, height * (1.66 / 3));
+    //Change bunny size depending on screen size
+    scale((2 / 1500) * height);
+    drawBunny();
+    pop();
+    // rita kryssögon byt i kanin funktionen
+    fill(255, 0, 0, 150);
+    rect(0, 0, width, height);
+    // rita ut lose-skärmen
   }
-
-  scenery();
-  drawBunny(bunnyMovedY);
-  bunnyMovedY = bunnyMovedY + speed;
-  speed = speed + acceleration;
-  landing();
-
-  if (keyIsDown(38) || keyIsDown(87)) {
-    acceleration = -0.05;
-  } else {
-    acceleration = 0.05;
-  }
-
-  if (gameState === "start" || gameState === "lose" || gameState === "win") {
-    acceleration = 0;
-    speed = 0;
+  //Start or restart the game, reset values
+  if (gameState == "start" || gameState == "win" || gameState == "lose") {
     if (mouseIsPressed) {
       gameState = "game";
       bunnyMovedY = 0;
-      speed = 1;
-      acceleration = -0.25;
-    }
-  }
-
-  // LOSE SCREEN
-  if (gameState === "lose") {
-    fill(0, 0, 0, 150);
-    rect(0, 0, 700, 700);
-  }
-
-  // WIN SCREEN
-
-  if (gameState === "win") {
-    fill(255, 0, 150);
-    rect(0, 0, 700, 700);
-  }
-}
-
-/* To do
-if bunny-y is on the grass line at too high velocity, you'll lose. if you land smoothly you win! create if statements
-
-
-*/
-
-//ADDING CONTROLS
-// Add gravity to the bunny by using a variable for the Y-position of the bunny. We also added velocity and acceleration.
-
-//It will go faster with each frame.
-
-let gameState = "start";
-
-function mouseClicked() {}
-
-if (gameState === "game") {
-  bunnyMovedY = bunnyMovedY + speed;
-  speed = speed + acceleration;
-}
-function landing() {
-  if (bunnyMovedY > 205) {
-    if (speed > 2) {
-      gameState = "lose";
-    } else if (speed > 0) {
-      gameState = "win";
+      speed = 0.5;
     }
   }
 }
