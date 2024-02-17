@@ -2,7 +2,7 @@ let gameState = "start";
 
 function setup() {
   //rewrite to work at all screen sizes
-  createCanvas(width, height);
+  createCanvas(windowWidth, windowHeight);
 }
 
 function scenery() {
@@ -164,7 +164,6 @@ function draw() {
   if (gameState == "start") {
     // rita ut startskärm
     background(0);
-
     fill("yellow");
     rect(400, 300, 200, 50, 20); //drawing my button with rouned corners.
     textSize(35);
@@ -262,6 +261,7 @@ function draw() {
     pop();
     //lose screen
     background(0);
+
     fill("red");
     rect(400, 300, 200, 50, 20); //drawing my button with rouned corners.
     textSize(35);
