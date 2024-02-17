@@ -86,7 +86,6 @@ function drawBunny() {
   line(5, -5, 15, -2);
   line(5, -5, 15, -10);
   pop();
-  pop();
 
   //BODY START POSITION
   translate(0, -12);
@@ -131,6 +130,7 @@ function drawBunny() {
   pop();
 
   //balloon
+
   translate(-69, -77);
 
   noFill(0);
@@ -138,7 +138,6 @@ function drawBunny() {
   vertex(10, 2);
   bezierVertex(-3, 15, 10, 45, 40, 90);
   endShape();
-
   //Red part
   fill(0, 255, 0);
   ellipse(10, -28, 45, 60);
