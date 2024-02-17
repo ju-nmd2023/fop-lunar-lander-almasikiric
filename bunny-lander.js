@@ -226,7 +226,8 @@ function draw() {
     scale((2 / 1500) * height);
     drawBunny();
     pop();
-    // rita ut win-skärmen
+
+    //win screen
     background("yellow");
 
     fill(0);
@@ -253,24 +254,20 @@ function draw() {
     }
   } else if (gameState == "lose") {
     scenery();
-    // rita kanin
     push();
     translate(width / 2, height * (1.66 / 3));
     //Change bunny size depending on screen size
     scale((2 / 1500) * height);
     drawBunny();
     pop();
-    // rita kryssögon byt i kanin funktionen
-    // rita ut lose-skärmen
-    push();
+    //lose screen
     background(0);
-
     fill("red");
     rect(400, 300, 200, 50, 20); //drawing my button with rouned corners.
     textSize(35);
     textFont("Helvetica");
     fill(255);
-    text("YOU LOST :(",500,100);
+    text("YOU LOST :(", 500, 100);
     textSize(20);
     textFont("Helvetica");
     fill(255);
@@ -285,8 +282,6 @@ function draw() {
     ) {
       gameState = "game";
     }
-
-    pop();
   }
   //Start or restart the game, reset values
   if (gameState == "start" || gameState == "win" || gameState == "lose") {
