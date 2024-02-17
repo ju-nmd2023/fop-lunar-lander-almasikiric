@@ -86,9 +86,12 @@ function drawBunny() {
   line(5, -5, 15, -2);
   line(5, -5, 15, -10);
   pop();
+  pop();
 
   //BODY START POSITION
+
   translate(0, -12);
+
   stroke(0);
 
   // Tail
@@ -293,7 +296,7 @@ function draw() {
     ) {
       gameState = "game";
       bunnyMovedY = 0;
-      speed = 0.5;
+      speed = 0.05;
     }
   }
 }
