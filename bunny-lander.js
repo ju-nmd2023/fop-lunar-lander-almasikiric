@@ -58,23 +58,20 @@ function drawBunny() {
   ellipse(-0, -14, 40, 45);
 
   //draw cross eyes when the player loses
-  if(gameState == "lose"){
-
-
+  if (gameState == "lose") {
   }
   //Draw normal eyes if the player hasnt lost
   else {
-  // white part, eyes
-  fill(255);
-  ellipse(-7, -20, 9, 13);
-  ellipse(7, -20, 9, 13);
+    // white part, eyes
+    fill(255);
+    ellipse(-7, -20, 9, 13);
+    ellipse(7, -20, 9, 13);
 
-  //pupils
-  fill(0);
-  ellipse(-7, -20, 5.5);
-  ellipse(7, -20, 5.5);
-}
-
+    //pupils
+    fill(0);
+    ellipse(-7, -20, 5.5);
+    ellipse(7, -20, 5.5);
+  }
 
   // mouth
   fill(255, 100, 170);
@@ -153,7 +150,7 @@ let speed = 0.5;
 let acceleration = 0.05;
 
 function checkWinLose() {
-  if (bunnyMovedY > height*(1.15/3)) {
+  if (bunnyMovedY > height * (1.15 / 3)) {
     if (speed > 1.4) {
       gameState = "lose";
     } else {
@@ -166,9 +163,32 @@ function draw() {
   //Start screen
   if (gameState == "start") {
     // rita ut startskärm
+    background(0);
+
+    fill("yellow");
+    rect(400, 300, 200, 50, 20); //drawing my button with rouned corners.
+    textSize(35);
+    textFont("Helvetica");
     fill(255);
-    rect(0, 0, width, height);
-    // när man vill starta, ändra state till game
+    text("BUNNY LANDER", 500, 100);
+    textSize(20);
+    textFont("Helvetica");
+
+    fill(255, 0, 0);
+    text("START GAME", 438, 330);
+
+    if (
+      mouseX >= 400 &&
+      mouseX <= 600 &&
+      mouseY >= 300 &&
+      mouseY <= 350 &&
+      mouseIsPressed == true
+    ) {
+      gameState = "game";
+    }
+
+    fill(255);
+    text("GAME BY: ALMA SIKIRIC", 350, 400);
     //Game
   } else if (gameState == "game") {
     // rita ut spelskärmen
@@ -207,8 +227,30 @@ function draw() {
     drawBunny();
     pop();
     // rita ut win-skärmen
-    fill(0, 255, 0, 150);
-    rect(0, 0, width, height);
+    background("yellow");
+
+    fill(0);
+    rect(400, 300, 200, 50, 20); //drawing my button with rouned corners.
+    textSize(35);
+    textFont("Helvetica");
+    fill(0);
+    text("CONGRATS, YOU WON", 500, 100);
+    push();
+    textSize(20);
+    textFont("Helvetica");
+    fill(255);
+    text("PLAY AGAIN", 438, 330);
+    pop();
+
+    if (
+      mouseX >= 400 &&
+      mouseX <= 600 &&
+      mouseY >= 300 &&
+      mouseY <= 350 &&
+      mouseIsPressed == true
+    ) {
+      gameState = "game";
+    }
   } else if (gameState == "lose") {
     scenery();
     // rita kanin
@@ -219,13 +261,42 @@ function draw() {
     drawBunny();
     pop();
     // rita kryssögon byt i kanin funktionen
-    fill(255, 0, 0, 150);
-    rect(0, 0, width, height);
     // rita ut lose-skärmen
+    push();
+    background(0);
+
+    fill("red");
+    rect(400, 300, 200, 50, 20); //drawing my button with rouned corners.
+    textSize(35);
+    textFont("Helvetica");
+    fill(255);
+    text("YOU LOST :(",500,100);
+    textSize(20);
+    textFont("Helvetica");
+    fill(255);
+    text("TRY AGAIN", 438, 330);
+
+    if (
+      mouseX >= 400 &&
+      mouseX <= 600 &&
+      mouseY >= 300 &&
+      mouseY <= 350 &&
+      mouseIsPressed == true
+    ) {
+      gameState = "game";
+    }
+
+    pop();
   }
   //Start or restart the game, reset values
   if (gameState == "start" || gameState == "win" || gameState == "lose") {
-    if (mouseIsPressed) {
+    if (
+      mouseX >= 400 &&
+      mouseX <= 600 &&
+      mouseY >= 300 &&
+      mouseY <= 350 &&
+      mouseIsPressed == true
+    ) {
       gameState = "game";
       bunnyMovedY = 0;
       speed = 0.5;
