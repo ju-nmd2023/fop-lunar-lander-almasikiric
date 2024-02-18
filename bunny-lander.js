@@ -61,17 +61,15 @@ function drawBunny() {
   fill(255, 255, 255);
   ellipse(-0, -14, 40, 45);
 
-{
-    // white part, eyes
-    fill(255);
-    ellipse(-7, -20, 9, 13);
-    ellipse(7, -20, 9, 13);
+  // white part, eyes
+  fill(255);
+  ellipse(-7, -20, 9, 13);
+  ellipse(7, -20, 9, 13);
 
-    //pupils
-    fill(0);
-    ellipse(-7, -20, 5.5);
-    ellipse(7, -20, 5.5);
- 
+  //pupils
+  fill(0);
+  ellipse(-7, -20, 5.5);
+  ellipse(7, -20, 5.5);
 
   // mouth
   fill(255, 100, 170);
@@ -130,7 +128,9 @@ function drawBunny() {
   rotate(PI / 5);
   ellipse(67, 70, 25.5, 15);
   pop();
+}
 
+function balloon(speed) {
   //balloon
   translate(-69, -77);
   noFill(0);
@@ -141,9 +141,9 @@ function drawBunny() {
 
   //Red part
   fill(255, 0, 0);
-  ellipse(10, -28, 45, 60);
+  //Math.abs() makes it so the value is always positive, will shrimk slower than it grows
+  ellipse(10, -18, 45 + Math.abs(speed*5) + speed*10, 60 + Math.abs(speed*5) + speed*10);
 }
-
 //Initialize variables for draw that can be used elsewhere
 let bunnyMovedY = 0;
 let speed = 0.5;
@@ -198,9 +198,7 @@ function draw() {
 
     //Game
   } else if (gameState == "game") {
-    // rita ut spelskärmen
     scenery();
-    // rita kanin etc
     //Bunny
     push();
     //Control bunny position using bunnyMovedY variable.
@@ -208,27 +206,25 @@ function draw() {
     //Change bunny size depending on screen size
     scale((2 / 1500) * height);
     drawBunny();
+    balloon(speed * -1);
     pop();
 
     //calculate speed of bunny
     bunnyMovedY = bunnyMovedY + speed;
     speed = speed + acceleration;
 
-    // räkna ut grejer
     //control bunny acceleration
     if (keyIsDown(38) || keyIsDown(87)) {
       //acceleration up from ground
-      acceleration = -0.01;
+      acceleration = -0.03;
     } else {
       //Acceleration towards ground
       acceleration = 0.03;
     }
 
-    // kontrollera om man spelat klart och sätt state till rätt isf
     checkWinLose();
   } else if (gameState == "win") {
     scenery();
-    // rita kanin
     push();
     translate(width / 2, height * (1.66 / 3));
     //Change bunny size depending on screen size
