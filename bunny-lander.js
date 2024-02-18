@@ -1,8 +1,13 @@
 let gameState = "start";
+//button coords
+let buttonX;
+let buttonY;
 
 function setup() {
   //rewrite to work at all screen sizes
   createCanvas(windowWidth, windowHeight);
+  buttonX = windowWidth / 2;
+  buttonY = windowHeight / 2;
 }
 
 function scenery() {
@@ -22,12 +27,11 @@ function scenery() {
 }
 
 function drawBunny() {
-  push();
   // BUNNY EARS
   //white part of bunny ears
+  push();
   stroke(0);
   fill(255, 255, 255);
-  push();
   rotate(PI / 9);
   ellipse(-3, -50, 15, 36);
   pop();
@@ -57,11 +61,7 @@ function drawBunny() {
   fill(255, 255, 255);
   ellipse(-0, -14, 40, 45);
 
-  //draw cross eyes when the player loses
-  if (gameState == "lose") {
-  }
-  //Draw normal eyes if the player hasnt lost
-  else {
+{
     // white part, eyes
     fill(255);
     ellipse(-7, -20, 9, 13);
@@ -71,7 +71,7 @@ function drawBunny() {
     fill(0);
     ellipse(-7, -20, 5.5);
     ellipse(7, -20, 5.5);
-  }
+ 
 
   // mouth
   fill(255, 100, 170);
@@ -85,7 +85,6 @@ function drawBunny() {
   // mustache right side
   line(5, -5, 15, -2);
   line(5, -5, 15, -10);
-  pop();
   pop();
 
   //BODY START POSITION
@@ -148,7 +147,7 @@ function drawBunny() {
 //Initialize variables for draw that can be used elsewhere
 let bunnyMovedY = 0;
 let speed = 0.5;
-let acceleration = 0.05;
+let acceleration = 0.03;
 
 function checkWinLose() {
   if (bunnyMovedY > height * (1.15 / 3)) {
@@ -163,31 +162,40 @@ function checkWinLose() {
 function draw() {
   //Start screen
   if (gameState == "start") {
+    push();
+    rectMode(CENTER);
+    textAlign(CENTER);
+    //^ push pop start for changing rectmode only for menu screens
     background(0);
     fill("yellow");
-    rect(400, 300, 200, 50, 20); //drawing my button with rouned corners.
+
+    rect(buttonX, buttonY, 200, 50, 20); //drawing my button with rouned corners.
     textSize(35);
     textFont("Helvetica");
     fill(255);
-    text("BUNNY LANDER", 500, 100);
+    text("BUNNY LANDER", buttonX, buttonY / 2);
     textSize(20);
     textFont("Helvetica");
 
     fill(255, 0, 0);
-    text("START GAME", 438, 330);
+    text("START GAME", buttonX, buttonY * 1.03);
 
+    fill(255);
+    text("GAME BY: ALMA SIKIRIC", buttonX, buttonY * 1.6);
+
+    pop();
+    //pop end for changing rect and text mode to center
     if (
-      mouseX >= 400 &&
-      mouseX <= 600 &&
-      mouseY >= 300 &&
-      mouseY <= 350 &&
+      //Since the button is 200px wide and defined from the center ButtonX
+      mouseX >= buttonX - 100 &&
+      mouseX <= buttonX + 100 &&
+      mouseY >= buttonY - 50 &&
+      mouseY <= buttonY + 50 &&
       mouseIsPressed == true
     ) {
       gameState = "game";
     }
 
-    fill(255);
-    text("GAME BY: ALMA SIKIRIC", 350, 400);
     //Game
   } else if (gameState == "game") {
     // rita ut spelskärmen
@@ -209,9 +217,11 @@ function draw() {
     // räkna ut grejer
     //control bunny acceleration
     if (keyIsDown(38) || keyIsDown(87)) {
-      acceleration = -0.05;
+      //acceleration up from ground
+      acceleration = -0.01;
     } else {
-      acceleration = 0.05;
+      //Acceleration towards ground
+      acceleration = 0.03;
     }
 
     // kontrollera om man spelat klart och sätt state till rätt isf
@@ -227,26 +237,30 @@ function draw() {
     pop();
 
     //win screen
-    background("yellow");
+    push();
+    rectMode(CENTER);
+    textAlign(CENTER);
+    background(50, 255, 70, 150);
 
     fill(0);
-    rect(400, 300, 200, 50, 20); //drawing my button with rouned corners.
+    rect(buttonX, buttonY, 200, 50, 20); //drawing my button with rouned corners.
     textSize(35);
     textFont("Helvetica");
     fill(0);
-    text("CONGRATS, YOU WON", 500, 100);
-    push();
+    text("CONGRATS, YOU WON", buttonX, buttonY / 2);
+
     textSize(20);
     textFont("Helvetica");
     fill(255);
-    text("PLAY AGAIN", 438, 330);
+    text("PLAY AGAIN", buttonX, buttonY * 1.03);
     pop();
 
     if (
-      mouseX >= 400 &&
-      mouseX <= 600 &&
-      mouseY >= 300 &&
-      mouseY <= 350 &&
+      //Since the button is 200px wide and defined from the center ButtonX
+      mouseX >= buttonX - 100 &&
+      mouseX <= buttonX + 100 &&
+      mouseY >= buttonY - 50 &&
+      mouseY <= buttonY + 50 &&
       mouseIsPressed == true
     ) {
       gameState = "game";
@@ -260,24 +274,41 @@ function draw() {
     drawBunny();
     pop();
     //lose screen
-    background(0);
+    push();
+    rectMode(CENTER);
+    textAlign(CENTER);
+    background(0, 200);
 
     fill("red");
-    rect(400, 300, 200, 50, 20); //drawing my button with rouned corners.
+    rect(buttonX, buttonY, 200, 50, 20); //drawing my button with rouned corners.
     textSize(35);
     textFont("Helvetica");
     fill(255);
-    text("YOU LOST :(", 500, 100);
+    text("YOU LOST :((", buttonX, buttonY / 2);
+
     textSize(20);
     textFont("Helvetica");
     fill(255);
-    text("TRY AGAIN", 438, 330);
+    text("PLAY AGAIN", buttonX, buttonY * 1.03);
+    pop();
 
     if (
-      mouseX >= 400 &&
-      mouseX <= 600 &&
-      mouseY >= 300 &&
-      mouseY <= 350 &&
+      //Since the button is 200px wide and defined from the center ButtonX
+      mouseX >= buttonX - 100 &&
+      mouseX <= buttonX + 100 &&
+      mouseY >= buttonY - 50 &&
+      mouseY <= buttonY + 50 &&
+      mouseIsPressed == true
+    ) {
+      gameState = "game";
+    }
+
+    if (
+      //Since the button is 200px wide and defined from the center ButtonX
+      mouseX >= buttonX - 100 &&
+      mouseX <= buttonX + 100 &&
+      mouseY >= buttonY - 50 &&
+      mouseY <= buttonY + 50 &&
       mouseIsPressed == true
     ) {
       gameState = "game";
@@ -286,10 +317,11 @@ function draw() {
   //Start or restart the game, reset values
   if (gameState == "start" || gameState == "win" || gameState == "lose") {
     if (
-      mouseX >= 400 &&
-      mouseX <= 600 &&
-      mouseY >= 300 &&
-      mouseY <= 350 &&
+      //Since the button is 200px wide and defined from the center ButtonX
+      mouseX >= buttonX - 100 &&
+      mouseX <= buttonX + 100 &&
+      mouseY >= buttonY - 50 &&
+      mouseY <= buttonY + 50 &&
       mouseIsPressed == true
     ) {
       gameState = "game";
