@@ -133,16 +133,15 @@ function drawBunny() {
   pop();
 
   //balloon
-
   translate(-69, -77);
-
   noFill(0);
   beginShape();
   vertex(10, 2);
   bezierVertex(-3, 15, 10, 45, 40, 90);
   endShape();
+
   //Red part
-  fill(0, 255, 0);
+  fill(255, 0, 0);
   ellipse(10, -28, 45, 60);
 }
 
@@ -164,7 +163,6 @@ function checkWinLose() {
 function draw() {
   //Start screen
   if (gameState == "start") {
-    // rita ut startskärm
     background(0);
     fill("yellow");
     rect(400, 300, 200, 50, 20); //drawing my button with rouned corners.
