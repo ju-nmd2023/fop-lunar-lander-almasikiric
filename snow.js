@@ -12,7 +12,7 @@ for (let i = 0; i < 700; i++) {
   snowflakes.push(snowflake);
 }
 
-function draw() {
+function snowBackground() {
   noStroke();
   background(140, 200, 250, 150);
 

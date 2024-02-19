@@ -2,6 +2,19 @@ let gameState = "start";
 //button coords
 let buttonX;
 let buttonY;
+let snowflakes = [];
+
+for (let i = 0; i < 700; i++) {
+  const snowflake = {
+    x: (x = Math.floor(Math.random() * width)),
+    y: (y = Math.floor(Math.random() * height)),
+    alpha: Math.random(), //opacity
+    speed: Math.random() * 1.5,
+    size: Math.random() * 7,
+  };
+
+  snowflakes.push(snowflake);
+}
 
 function setup() {
   //rewrite to work at all screen sizes
@@ -13,17 +26,43 @@ function setup() {
 function scenery() {
   push();
   noStroke();
-  // Draw the ground
-  //Ground starts after two thirds of the display y = (2/3) * height
-  fill(39, 174, 96);
-  rect(0, height / 1.5, width, height);
+  //sky under pink moon
+  fill(1, 20, 158);
+  rect(0, height / 1.5, width, height * 2);
   //Lighter sky
-  fill(159, 214, 255);
+  fill(0, 16, 132);
   rect(0, 0, width, height / 1.5);
-  // Draw the sky
-  fill(143, 207, 255);
+  // Darker
+  fill(0, 10, 123);
   rect(0, 0, width, height / 3);
+  snowBackground();
+  // Draw the moon
+  //Moon starts after two thirds of the display y = (2/3) * height
+  fill(255, 83, 120);
+  rect(0, height / 1.5, width, height * 3, width * 2);
+  // Moon shading
+  fill(255, 100, 140);
+  rect(0, height / 1.35, width, height * 3, width * 2);
+  fill(255, 120, 160);
+  rect(0, height / 1.25, width, height * 3, width * 2);
   pop();
+}
+function snowBackground() {
+  noStroke();
+
+  for (let snowflake of snowflakes) {
+    fill(250, 255, 255, Math.abs(Math.sin(snowflake.alpha)) * 255);
+    ellipse(snowflake.x, snowflake.y, snowflake.size);
+    snowflake.y = snowflake.y + snowflake.speed + 0.5; // how fast it spawns
+
+    fill(255, 255, 255, Math.abs(Math.sin(snowflake.alpha)) * 255);
+    ellipse(snowflake.x, snowflake.y, snowflake.size * 2); // the size of the snowflakes * 2
+    snowflake.y = snowflake.y + snowflake.speed + 0.02; // two different smowflake-sizes
+
+    if (snowflake.y > height) {
+      snowflake.y = 0; // Otherwise the snow would not reset at the top infinetly.
+    }
+  }
 }
 
 function drawBunny() {
@@ -133,14 +172,19 @@ function drawBunny() {
 function balloon(speed) {
   //balloon
   translate(-69, -77);
-  noFill(0);
+
+  noFill(255, 83, 120);
   beginShape();
+  stroke(10);
   vertex(10, 2);
-  bezierVertex(-3, 15, 10, 45, 40, 90);
+  strokeWeight(2);
+  bezierVertex(-3, 15, 10, 45, 44, 95);
   endShape();
 
-  //Red part
-  fill(255, 0, 0);
+  //Pink, inflatable part
+  stroke(10);
+  fill(255, 83, 120);
+
   //Math.abs() makes it so the value is always positive, will shrimk slower than it grows
   ellipse(
     10,
@@ -172,11 +216,12 @@ function draw() {
     textAlign(CENTER);
     //^ push pop start for changing rectmode only for menu screens
     background(0);
-    fill(255, 100, 170);
 
     //bunny ears over the button for design
     //white part of bunny ears
     push();
+    noStroke();
+    translate(-290 + width / 2, -239 + height / 2);
     push();
     fill(255);
     rotate(PI / -7);
@@ -185,7 +230,6 @@ function draw() {
 
     //right ear
     push();
-    translate(-125, -283);
     fill(255);
     rotate(PI / 7);
     ellipse(322, 56, 25, 55);
@@ -193,23 +237,25 @@ function draw() {
 
     // left ear, pink
     push();
+    fill(255, 83, 120);
     rotate(PI / -7);
     ellipse(125, 283, 10, 30);
     pop();
 
     //right, pink part ears
-    fill(255, 100, 170);
     push();
+    fill(255, 83, 120);
     rotate(PI / 7);
-    ellipse(324, 67, 10, 30);
+    ellipse(322, 67, 10, 30);
     pop();
     pop();
+    fill(255, 83, 120);
     //button starts here
     rect(buttonX, buttonY, 200, 50, 20); //drawing my button with rouned corners.
     textSize(70);
     noStroke();
     textFont("Dream Sparks");
-    fill(255, 100, 170);
+    fill(255, 83, 120);
     text("BUNNY LANDER", buttonX, buttonY / 2);
     textSize(25);
     textFont("Cuties Rabbits");
@@ -219,9 +265,9 @@ function draw() {
     push();
     fill(255);
     textFont("Cuties Rabbits");
-    textSize(15);
+    textSize(25);
 
-    text("GAME BY: ALMA SIKIRIC", buttonX, buttonY * 1.6);
+    text("GAME BY: ALMA SIKIRIC", buttonX, buttonY * 1.8);
     pop();
     pop();
     //pop end for changing rect and text mode to center
@@ -238,6 +284,7 @@ function draw() {
 
     //Game
   } else if (gameState == "game") {
+    clear();
     scenery();
     //Bunny
     push();
@@ -276,9 +323,9 @@ function draw() {
     push();
     rectMode(CENTER);
     textAlign(CENTER);
-    background(50, 255, 70, 150);
+    background(255, 100, 170, 150);
     noStroke();
-    fill(255, 100, 170);
+    fill(255, 83, 120);
     rect(buttonX, buttonY, 200, 50, 20); //drawing my button with rouned corners.
 
     textFont("Cuties Rabbits");
@@ -315,7 +362,7 @@ function draw() {
     textAlign(CENTER);
     background(0, 200);
     noStroke();
-    fill(255, 100, 170);
+    fill(255, 83, 120);
     rect(buttonX, buttonY, 200, 50, 20); //drawing my button with rouned corners.
     textSize(60);
     textFont("Cuties Rabbits");
