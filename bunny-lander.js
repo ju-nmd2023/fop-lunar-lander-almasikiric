@@ -33,13 +33,13 @@ function drawBunny() {
   stroke(0);
   fill(255, 255, 255);
   rotate(PI / 9);
-  ellipse(-3, -50, 15, 36);
+  ellipse(-3, -50, 17, 39);
   pop();
 
   // left ear
   push();
   rotate(PI / -9);
-  ellipse(3, -50, 15, 36);
+  ellipse(3, -50, 17, 39);
   pop();
 
   //pink part ears
@@ -142,7 +142,12 @@ function balloon(speed) {
   //Red part
   fill(255, 0, 0);
   //Math.abs() makes it so the value is always positive, will shrimk slower than it grows
-  ellipse(10, -18, 45 + Math.abs(speed*5) + speed*10, 60 + Math.abs(speed*5) + speed*10);
+  ellipse(
+    10,
+    -18,
+    45 + Math.abs(speed * 5) + speed * 10,
+    60 + Math.abs(speed * 5) + speed * 10
+  );
 }
 //Initialize variables for draw that can be used elsewhere
 let bunnyMovedY = 0;
@@ -167,22 +172,57 @@ function draw() {
     textAlign(CENTER);
     //^ push pop start for changing rectmode only for menu screens
     background(0);
-    fill("yellow");
+    fill(255, 100, 170);
 
-    rect(buttonX, buttonY, 200, 50, 20); //drawing my button with rouned corners.
-    textSize(35);
-    textFont("Helvetica");
+    //bunny ears over the button for design
+    //white part of bunny ears
+    push();
+    push();
     fill(255);
-    text("BUNNY LANDER", buttonX, buttonY / 2);
-    textSize(20);
-    textFont("Helvetica");
+    rotate(PI / -7);
+    ellipse(125, 272, 25, 55);
+    pop();
 
-    fill(255, 0, 0);
+    //right ear
+    push();
+    translate(-125, -283);
+    fill(255);
+    rotate(PI / 7);
+    ellipse(322, 56, 25, 55);
+    pop();
+
+    // left ear, pink
+    push();
+    rotate(PI / -7);
+    ellipse(125, 283, 10, 30);
+    pop();
+
+    //right, pink part ears
+    fill(255, 100, 170);
+    push();
+    rotate(PI / 7);
+    ellipse(324, 67, 10, 30);
+    pop();
+    pop();
+    //button starts here
+    rect(buttonX, buttonY, 200, 50, 20); //drawing my button with rouned corners.
+    textSize(70);
+    noStroke();
+    textFont("Dream Sparks");
+    fill(255, 100, 170);
+    text("BUNNY LANDER", buttonX, buttonY / 2);
+    textSize(25);
+    textFont("Cuties Rabbits");
+    fill(255);
     text("START GAME", buttonX, buttonY * 1.03);
 
+    push();
     fill(255);
-    text("GAME BY: ALMA SIKIRIC", buttonX, buttonY * 1.6);
+    textFont("Cuties Rabbits");
+    textSize(15);
 
+    text("GAME BY: ALMA SIKIRIC", buttonX, buttonY * 1.6);
+    pop();
     pop();
     //pop end for changing rect and text mode to center
     if (
@@ -237,16 +277,16 @@ function draw() {
     rectMode(CENTER);
     textAlign(CENTER);
     background(50, 255, 70, 150);
-
-    fill(0);
+    noStroke();
+    fill(255, 100, 170);
     rect(buttonX, buttonY, 200, 50, 20); //drawing my button with rouned corners.
-    textSize(35);
-    textFont("Helvetica");
-    fill(0);
-    text("CONGRATS, YOU WON", buttonX, buttonY / 2);
 
-    textSize(20);
-    textFont("Helvetica");
+    textFont("Cuties Rabbits");
+    textSize(60);
+    fill(255);
+    text("CONGRATS, YOU WON", buttonX, buttonY / 2);
+    textSize(25);
+    textFont("Cuties Rabbits");
     fill(255);
     text("PLAY AGAIN", buttonX, buttonY * 1.03);
     pop();
@@ -274,16 +314,16 @@ function draw() {
     rectMode(CENTER);
     textAlign(CENTER);
     background(0, 200);
-
-    fill("red");
+    noStroke();
+    fill(255, 100, 170);
     rect(buttonX, buttonY, 200, 50, 20); //drawing my button with rouned corners.
-    textSize(35);
-    textFont("Helvetica");
+    textSize(60);
+    textFont("Cuties Rabbits");
     fill(255);
-    text("YOU LOST :((", buttonX, buttonY / 2);
+    text("YOU LOST", buttonX, buttonY / 2);
 
-    textSize(20);
-    textFont("Helvetica");
+    textSize(25);
+    textFont("Cuties Rabbits");
     fill(255);
     text("PLAY AGAIN", buttonX, buttonY * 1.03);
     pop();
