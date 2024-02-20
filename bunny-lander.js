@@ -185,7 +185,7 @@ function balloon(speed) {
   stroke(170, 170, 170);
   vertex(10, 2);
   strokeWeight(2);
-  bezierVertex(-3, 15, 10, 45, 44, 95);
+  bezierVertex(-8, 9, 5, 39, 39, 87);
   endShape();
 
   //Pink, inflatable part
