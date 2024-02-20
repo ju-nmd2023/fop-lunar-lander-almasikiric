@@ -316,7 +316,7 @@ function draw() {
       width / 1.02,
       height - height / 1.06
     );
-    
+
     push();
     //Control bunny position using bunnyMovedY variable.
     translate(width / 2, height / 6 + bunnyMovedY);
