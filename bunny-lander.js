@@ -2,40 +2,43 @@ let gameState = "start";
 //button coords
 let buttonX;
 let buttonY;
-let snowflakes = [];
-
-for (let i = 0; i < 700; i++) {
-  const snowflake = {
-    x: (x = Math.floor(Math.random() * width)),
-    y: (y = Math.floor(Math.random() * height)),
-    alpha: Math.random(), //opacity
-    speed: Math.random() * 1.5,
-    size: Math.random() * 7,
-  };
-
-  snowflakes.push(snowflake);
-}
+let stars = [];
+let helium = 200;
 
 function setup() {
   //rewrite to work at all screen sizes
   createCanvas(windowWidth, windowHeight);
   buttonX = windowWidth / 2;
   buttonY = windowHeight / 2;
+
+  // The following 11 lines were adapted from Garrit Schaap lecture 19/2.
+  for (let i = 0; i < 200; i++) {
+    const star = {
+      x: Math.random() * width,
+      y: Math.random() * height,
+      alpha: Math.random(), //opacity + how fast it blinks
+      size: Math.random() * 7,
+    };
+
+    stars.push(star);
+  }
 }
 
 function scenery() {
   push();
   noStroke();
   //sky under pink moon
-  fill(1, 20, 158);
+  fill(44, 44, 44);
   rect(0, height / 1.5, width, height * 2);
   //Lighter sky
-  fill(0, 16, 132);
+  fill(34, 34, 34);
   rect(0, 0, width, height / 1.5);
   // Darker
-  fill(0, 10, 123);
+  fill(24, 24, 24);
   rect(0, 0, width, height / 3);
-  snowBackground();
+  if (gameState == "game") {
+    starBackground();
+  }
   // Draw the moon
   //Moon starts after two thirds of the display y = (2/3) * height
   fill(255, 83, 120);
@@ -47,21 +50,24 @@ function scenery() {
   rect(0, height / 1.25, width, height * 3, width * 2);
   pop();
 }
-function snowBackground() {
+function starBackground() {
   noStroke();
 
-  for (let snowflake of snowflakes) {
-    fill(250, 255, 255, Math.abs(Math.sin(snowflake.alpha)) * 255);
-    ellipse(snowflake.x, snowflake.y, snowflake.size);
-    snowflake.y = snowflake.y + snowflake.speed + 0.5; // how fast it spawns
+  for (let star of stars) {
+    fill(255, 255, 255, Math.abs(Math.sin(star.alpha)) * 255);
+    ellipse(star.x, star.y, star.size);
+    star.alpha = star.alpha + 0.025;
+  }
+}
 
-    fill(255, 255, 255, Math.abs(Math.sin(snowflake.alpha)) * 255);
-    ellipse(snowflake.x, snowflake.y, snowflake.size * 2); // the size of the snowflakes * 2
-    snowflake.y = snowflake.y + snowflake.speed + 0.02; // two different smowflake-sizes
+// Same as previous function except different colors and speed.
+function winBackground() {
+  noStroke();
 
-    if (snowflake.y > height) {
-      snowflake.y = 0; // Otherwise the snow would not reset at the top infinetly.
-    }
+  for (let star of stars) {
+    fill(255, 0, 100, Math.abs(Math.sin(star.alpha)) * 255);
+    ellipse(star.x, star.y, star.size * 2.5);
+    star.alpha = star.alpha + 0.03;
   }
 }
 
@@ -77,6 +83,7 @@ function drawBunny() {
 
   // left ear
   push();
+  fill(255);
   rotate(PI / -9);
   ellipse(3, -50, 17, 39);
   pop();
@@ -175,24 +182,37 @@ function balloon(speed) {
 
   noFill(255, 83, 120);
   beginShape();
-  stroke(10);
+  stroke(170, 170, 170);
   vertex(10, 2);
   strokeWeight(2);
   bezierVertex(-3, 15, 10, 45, 44, 95);
   endShape();
 
   //Pink, inflatable part
-  stroke(10);
+  noStroke();
   fill(255, 83, 120);
 
+  //Anton Kinnander helped me figure out to use Math.max and Math.abs
+  //Math.max takes the larger value between the one calculated and -15 so the balloon wont shrink forever
   //Math.abs() makes it so the value is always positive, will shrimk slower than it grows
   ellipse(
     10,
     -18,
-    45 + Math.abs(speed * 5) + speed * 10,
-    60 + Math.abs(speed * 5) + speed * 10
+    45 + Math.max(Math.abs(speed * 4) + speed * 14, -20),
+    60 + Math.max(Math.abs(speed * 4) + speed * 14, -20)
   );
 }
+
+function checkHelium() {
+  if (keyIsDown(38) || keyIsDown(87)) {
+    if (helium > 0) {
+      helium = helium - 0.5;
+    } else {
+      helium = 0;
+    }
+  }
+}
+
 //Initialize variables for draw that can be used elsewhere
 let bunnyMovedY = 0;
 let speed = 0.5;
@@ -286,6 +306,16 @@ function draw() {
   } else if (gameState == "game") {
     clear();
     scenery();
+    checkHelium();
+    fill(255, 120, 160);
+    textAlign(RIGHT);
+    textFont("Cuties Rabbits");
+    textSize(30);
+    text(
+      "HELIUM GAS - " + Math.floor(helium),
+      width / 1.02,
+      height - height / 1.06
+    );
     //Bunny
     push();
     //Control bunny position using bunnyMovedY variable.
@@ -300,8 +330,9 @@ function draw() {
     bunnyMovedY = bunnyMovedY + speed;
     speed = speed + acceleration;
 
+    console.log(helium);
     //control bunny acceleration
-    if (keyIsDown(38) || keyIsDown(87)) {
+    if ((keyIsDown(38) || keyIsDown(87)) && helium > 0) {
       //acceleration up from ground
       acceleration = -0.03;
     } else {
@@ -323,8 +354,9 @@ function draw() {
     push();
     rectMode(CENTER);
     textAlign(CENTER);
-    background(255, 100, 170, 150);
+    background(0, 200);
     noStroke();
+    winBackground();
     fill(255, 83, 120);
     rect(buttonX, buttonY, 200, 50, 20); //drawing my button with rouned corners.
 
@@ -332,6 +364,12 @@ function draw() {
     textSize(60);
     fill(255);
     text("CONGRATS, YOU WON", buttonX, buttonY / 2);
+
+    fill(255);
+    textFont("Cuties Rabbits");
+    textSize(22);
+    text("WITH A HELIUM GAS OF " + Math.floor(helium), buttonX, buttonY / 1.4);
+
     textSize(25);
     textFont("Cuties Rabbits");
     fill(255);
@@ -367,7 +405,12 @@ function draw() {
     textSize(60);
     textFont("Cuties Rabbits");
     fill(255);
-    text("YOU LOST", buttonX, buttonY / 2);
+    text("YOU LOST,", buttonX, buttonY / 2);
+
+    fill(255);
+    textFont("Cuties Rabbits");
+    textSize(22);
+    text("WITH A HELIUM GAS OF " + Math.floor(helium), buttonX, buttonY / 1.4);
 
     textSize(25);
     textFont("Cuties Rabbits");
@@ -410,6 +453,7 @@ function draw() {
       gameState = "game";
       bunnyMovedY = 0;
       speed = 0.05;
+      helium = 200;
     }
   }
 }
