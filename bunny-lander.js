@@ -5,13 +5,12 @@ let buttonY;
 let stars = [];
 let helium = 200;
 
-
-let = bunnyTitle
-let = informationText
+let bunnyTitle;
+let informationText;
 
 function preload() {
-  bunnyTitle = loadFont("Dream Sparks-Shiny.ttf")
-  informationText = loadFont ("CutiesRabbits-6YL2D.ttf") 
+  bunnyTitle = loadFont("Dream Sparks-Shiny.ttf");
+  informationText = loadFont("CutiesRabbits-6YL2D.ttf");
 }
 
 function setup() {
@@ -283,20 +282,20 @@ function draw() {
     rect(buttonX, buttonY, 200, 50, 20); //drawing my button with rouned corners.
     textSize(70);
     noStroke();
-    textFont("Dream Sparks");
+    textFont(bunnyTitle);
     fill(255, 83, 120);
     text("BUNNY LANDER", buttonX, buttonY / 2);
     textSize(25);
-    textFont("Cuties Rabbits");
+    textFont(informationText);
     fill(255);
     text("START GAME", buttonX, buttonY * 1.03);
 
     push();
     fill(255);
-    textFont("Cuties Rabbits");
+    textFont(informationText);
     textSize(25);
 
-    text("GAME BY: ALMA SIKIRIC", buttonX, buttonY * 1.8);
+    text("GAME BY ALMA SIKIRIC", buttonX, buttonY * 1.8);
     pop();
     pop();
     //pop end for changing rect and text mode to center
@@ -318,10 +317,10 @@ function draw() {
     checkHelium();
     fill(255, 120, 160);
     textAlign(RIGHT);
-    textFont("Cuties Rabbits");
+    textFont(informationText);
     textSize(30);
     text(
-      "HELIUM GAS - " + Math.floor(helium),
+      "HELIUM GAS − " + Math.floor(helium),
       width / 1.02,
       height - height / 1.06
     );
@@ -369,18 +368,18 @@ function draw() {
     fill(255, 83, 120);
     rect(buttonX, buttonY, 200, 50, 20); //drawing my button with rouned corners.
 
-    textFont("Cuties Rabbits");
+    textFont(informationText);
     textSize(60);
     fill(255);
     text("CONGRATS, YOU WON", buttonX, buttonY / 2);
 
     fill(255);
-    textFont("Cuties Rabbits");
-    textSize(22);
-    text("WITH A HELIUM GAS OF " + Math.floor(helium), buttonX, buttonY / 1.4);
+    textFont(informationText);
+    textSize(30);
+    text("WITH A HELIUM GAS OF " + Math.floor(helium) + ".", buttonX, buttonY / 1.4);
 
     textSize(25);
-    textFont("Cuties Rabbits");
+    textFont(informationText);
     fill(255);
     text("PLAY AGAIN", buttonX, buttonY * 1.03);
     pop();
@@ -411,18 +410,22 @@ function draw() {
     noStroke();
     fill(255, 83, 120);
     rect(buttonX, buttonY, 200, 50, 20); //drawing my button with rouned corners.
+    textFont(informationText);
     textSize(60);
-    textFont("Cuties Rabbits");
     fill(255);
     text("YOU LOST,", buttonX, buttonY / 2);
 
     fill(255);
-    textFont("Cuties Rabbits");
-    textSize(22);
-    text("WITH A HELIUM GAS OF " + Math.floor(helium), buttonX, buttonY / 1.4);
+    textFont(informationText);
+    textSize(30);
+    text(
+      "WITH A HELIUM GAS OF " + Math.floor(helium) + ".",
+      buttonX,
+      buttonY / 1.4
+    );
 
     textSize(25);
-    textFont("Cuties Rabbits");
+    textFont(informationText);
     fill(255);
     text("PLAY AGAIN", buttonX, buttonY * 1.03);
     pop();
