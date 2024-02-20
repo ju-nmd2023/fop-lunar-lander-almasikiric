@@ -5,6 +5,15 @@ let buttonY;
 let stars = [];
 let helium = 200;
 
+
+let = bunnyTitle
+let = informationText
+
+function preload() {
+  bunnyTitle = loadFont("Dream Sparks-Shiny.ttf")
+  informationText = loadFont ("CutiesRabbits-6YL2D.ttf") 
+}
+
 function setup() {
   //rewrite to work at all screen sizes
   createCanvas(windowWidth, windowHeight);
