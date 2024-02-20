@@ -198,8 +198,8 @@ function balloon(speed) {
   ellipse(
     10,
     -18,
-    45 + Math.max(Math.abs(speed * 4) + speed * 14, -20),
-    60 + Math.max(Math.abs(speed * 4) + speed * 14, -20)
+    65 + Math.max(Math.abs(speed * 4) + speed * 14, -20),
+    80 + Math.max(Math.abs(speed * 4) + speed * 14, -20)
   );
 }
 
