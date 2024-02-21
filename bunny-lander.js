@@ -183,7 +183,6 @@ function drawBunny() {
   ellipse(67, 70, 25.5, 15);
   pop();
 }
-
 function balloon(speed) {
   //balloon
   translate(-69, -77);
@@ -199,6 +198,7 @@ function balloon(speed) {
   //Pink, inflatable part
   noStroke();
   fill(255, 83, 120);
+
 
   //Anton Kinnander helped me figure out to use Math.max and Math.abs
   //Math.max takes the larger value between the one calculated and -15 so the balloon wont shrink forever
