@@ -66,6 +66,7 @@ function starBackground() {
     ellipse(star.x, star.y, star.size);
     star.alpha = star.alpha + 0.025;
   }
+ 
 }
 
 // Same as previous function except different colors and speed.
@@ -200,6 +201,7 @@ function balloon(speed) {
   fill(255, 83, 120);
 
 
+
   //Anton Kinnander helped me figure out to use Math.max and Math.abs
   //Math.max takes the larger value between the one calculated and -15 so the balloon wont shrink forever
   //Math.abs() makes it so the value is always positive, will shrimk slower than it grows
@@ -212,7 +214,7 @@ function balloon(speed) {
 }
 
 function checkHelium() {
-  if (keyIsDown(38) || keyIsDown(87)) {
+  if (keyIsDown(38) || keyIsDown(87) || keyIsDown(32)) {
     if (helium > 0) {
       helium = helium - 0.5;
     } else {
@@ -306,10 +308,12 @@ function draw() {
       mouseY >= buttonY - 50 &&
       mouseY <= buttonY + 50 &&
       mouseIsPressed == true
-    ) {
+    ) 
+    
+    {
       gameState = "game";
     }
-
+    console.log(gameState);
     //Game
   } else if (gameState == "game") {
     clear();
@@ -324,7 +328,6 @@ function draw() {
       width / 1.02,
       height - height / 1.06
     );
-
     push();
     //Control bunny position using bunnyMovedY variable.
     translate(width / 2, height / 6 + bunnyMovedY);
@@ -333,20 +336,22 @@ function draw() {
     drawBunny();
     balloon(speed * -1);
     pop();
-
+    
     //calculate speed of bunny
     bunnyMovedY = bunnyMovedY + speed;
     speed = speed + acceleration;
-
-    console.log(helium);
+    
     //control bunny acceleration
-    if ((keyIsDown(38) || keyIsDown(87)) && helium > 0) {
+    if ((keyIsDown(38) || keyIsDown(87)) || keyIsDown(32) && helium > 0) {
       //acceleration up from ground
       acceleration = -0.03;
     } else {
       //Acceleration towards ground
       acceleration = 0.03;
     }
+    //Checks in the console
+    console.log(gameState);
+
 
     checkWinLose();
   } else if (gameState == "win") {
@@ -357,7 +362,7 @@ function draw() {
     scale((2 / 1500) * height);
     drawBunny();
     pop();
-
+    
     //win screen
     push();
     rectMode(CENTER);
@@ -367,23 +372,24 @@ function draw() {
     winBackground();
     fill(255, 83, 120);
     rect(buttonX, buttonY, 200, 50, 20); //drawing my button with rouned corners.
-
+    
     textFont(informationText);
     textSize(60);
     fill(255);
     text("CONGRATS, YOU WON", buttonX, buttonY / 2);
-
+    
     fill(255);
     textFont(informationText);
     textSize(30);
     text("WITH A HELIUM GAS OF " + Math.floor(helium) + ".", buttonX, buttonY / 1.4);
-
+    
     textSize(25);
     textFont(informationText);
     fill(255);
     text("PLAY AGAIN", buttonX, buttonY * 1.03);
     pop();
 
+    
     if (
       //Since the button is 200px wide and defined from the center ButtonX
       mouseX >= buttonX - 100 &&
@@ -391,9 +397,9 @@ function draw() {
       mouseY >= buttonY - 50 &&
       mouseY <= buttonY + 50 &&
       mouseIsPressed == true
-    ) {
-      gameState = "game";
-    }
+      ) {
+      }
+      console.log(gameState);
   } else if (gameState == "lose") {
     scenery();
     push();
@@ -451,6 +457,7 @@ function draw() {
     ) {
       gameState = "game";
     }
+    console.log(gameState);
   }
   //Start or restart the game, reset values
   if (gameState == "start" || gameState == "win" || gameState == "lose") {
