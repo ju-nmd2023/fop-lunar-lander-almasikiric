@@ -369,7 +369,7 @@ function draw() {
     ) {
       balloonColor = "yellow";
     }
-    console.log(gameState);
+   
     //Game
   } else if (gameState == "game") {
     clear();
