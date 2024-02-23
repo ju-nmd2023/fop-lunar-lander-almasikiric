@@ -352,7 +352,6 @@ function draw() {
       balloonColor = "pink";
     }
     if (
-      //Since the button is 50px wide and defined from the center ButtonX -width/8.5
       mouseX >= buttonX - 25 &&
       mouseX <= buttonX + 25 &&
       mouseY >= buttonY + height / 5 - 25 &&
@@ -362,7 +361,6 @@ function draw() {
       balloonColor = "blue";
     }
     if (
-      //Since the button is 50px wide and defined from the center ButtonX -width/8.5
       mouseX >= buttonX + width / 8.5 - 25 &&
       mouseX <= buttonX + width / 8.5 + 25 &&
       mouseY >= buttonY + height / 5 - 25 &&
@@ -498,6 +496,7 @@ function draw() {
   }
   //Start or restart the game, reset values
   if (gameState == "start" || gameState == "win" || gameState == "lose") {
+    // The following 6 lines were inspired and adapted by https://www.youtube.com/watch?v=HfvTNIe2IaQ.
     if (
       mouseX >= buttonX - 100 &&
       mouseX <= buttonX + 100 &&
