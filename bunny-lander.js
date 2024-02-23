@@ -333,7 +333,7 @@ function draw() {
     textFont(informationText);
     textSize(20);
     text("SELECT BALLOON DIFFICULTY", buttonX, buttonY * 1.25);
-    text("GAME BY ALMA SIKIRIC", buttonX, buttonY * 1.8);
+    text("GAME BY ALMA SIKIRIC", buttonX, buttonY * 1.95);
     text("50 cc", buttonX - width / 8.5, buttonY * 1.65);
     text("100 cc", buttonX, buttonY * 1.65);
     text("150 cc", buttonX + width / 8.5, buttonY * 1.65);
