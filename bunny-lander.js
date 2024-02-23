@@ -296,6 +296,10 @@ function draw() {
     textSize(25);
     textFont(informationText);
     fill(255);
+    text("USE W, UP ARROW OR SPACE BAR WHEN PLAYING.", buttonX, buttonY * 0.67);
+    textSize(25);
+    textFont(informationText);
+    fill(255);
     text("START GAME", buttonX, buttonY * 1.03);
 
     //Balloon buttons select ballons with different attributes
@@ -369,7 +373,7 @@ function draw() {
     ) {
       balloonColor = "yellow";
     }
-   
+
     //Game
   } else if (gameState == "game") {
     clear();
