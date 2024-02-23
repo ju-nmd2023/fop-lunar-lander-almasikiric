@@ -3,7 +3,9 @@ let gameState = "start";
 let buttonX;
 let buttonY;
 let stars = [];
-let helium = 200;
+let helium = 0;
+
+let balloonColor = "pink"; //Pink is the default (no added effects), so it is in 0.
 
 let bunnyTitle;
 let informationText;
@@ -66,7 +68,6 @@ function starBackground() {
     ellipse(star.x, star.y, star.size);
     star.alpha = star.alpha + 0.025;
   }
- 
 }
 
 // Same as previous function except different colors and speed.
@@ -196,11 +197,15 @@ function balloon(speed) {
   bezierVertex(-8, 9, 5, 39, 39, 87);
   endShape();
 
-  //Pink, inflatable part
+  //color for different balloons, inflatable part
   noStroke();
-  fill(255, 83, 120);
-
-
+  if (balloonColor == "pink") {
+    fill(255, 83, 120);
+  } else if (balloonColor == "blue") {
+    fill(0, 35, 255);
+  } else if (balloonColor == "yellow") {
+    fill(255, 251, 0);
+  }
 
   //Anton Kinnander helped me figure out to use Math.max and Math.abs
   //Math.max takes the larger value between the one calculated and -15 so the balloon wont shrink forever
@@ -280,6 +285,7 @@ function draw() {
     pop();
     pop();
     fill(255, 83, 120);
+
     //button starts here
     rect(buttonX, buttonY, 200, 50, 20); //drawing my button with rouned corners.
     textSize(70);
@@ -292,26 +298,78 @@ function draw() {
     fill(255);
     text("START GAME", buttonX, buttonY * 1.03);
 
+    //Balloon buttons select ballons with different attributes
+    //pink
+    push();
+    strokeWeight(5);
+    if (balloonColor == "pink") {
+      stroke(255);
+    }
+    fill(255, 83, 120);
+    rect(buttonX - width / 8.5, buttonY + height / 5, 50, 50, 20);
+    pop();
+
+    //blue fill in button
+    push();
+    strokeWeight(5);
+    if (balloonColor == "blue") {
+      stroke(255);
+    }
+    fill(0, 35, 255);
+    rect(buttonX, buttonY + height / 5, 50, 50, 20);
+    pop();
+    //yellow
+    push();
+    strokeWeight(5);
+    if (balloonColor == "yellow") {
+      stroke(255);
+    }
+    fill(255, 251, 0);
+    rect(buttonX + width / 8.5, buttonY + height / 5, 50, 50, 20);
+    pop();
+
     push();
     fill(255);
     textFont(informationText);
-    textSize(25);
-
+    textSize(20);
+    text("SELECT BALLOON DIFFICULTY", buttonX, buttonY * 1.25);
     text("GAME BY ALMA SIKIRIC", buttonX, buttonY * 1.8);
+    text("50 cc", buttonX - width / 8.5, buttonY * 1.65);
+    text("100 cc", buttonX, buttonY * 1.65);
+    text("150 cc", buttonX + width / 8.5, buttonY * 1.65);
     pop();
     pop();
     //pop end for changing rect and text mode to center
+    //Color buttons
     if (
-      //Since the button is 200px wide and defined from the center ButtonX
-      mouseX >= buttonX - 100 &&
-      mouseX <= buttonX + 100 &&
-      mouseY >= buttonY - 50 &&
-      mouseY <= buttonY + 50 &&
+      //Since the button is 50px wide and defined from the center ButtonX -width/8.5
+      mouseX >= buttonX - width / 8.5 - 25 &&
+      mouseX <= buttonX - width / 8.5 + 25 &&
+      mouseY >= buttonY + height / 5 - 25 &&
+      mouseY <= buttonY + height / 5 + 25 &&
       mouseIsPressed == true
-    ) 
-    
-    {
-      gameState = "game";
+    ) {
+      balloonColor = "pink";
+    }
+    if (
+      //Since the button is 50px wide and defined from the center ButtonX -width/8.5
+      mouseX >= buttonX - 25 &&
+      mouseX <= buttonX + 25 &&
+      mouseY >= buttonY + height / 5 - 25 &&
+      mouseY <= buttonY + height / 5 + 25 &&
+      mouseIsPressed == true
+    ) {
+      balloonColor = "blue";
+    }
+    if (
+      //Since the button is 50px wide and defined from the center ButtonX -width/8.5
+      mouseX >= buttonX + width / 8.5 - 25 &&
+      mouseX <= buttonX + width / 8.5 + 25 &&
+      mouseY >= buttonY + height / 5 - 25 &&
+      mouseY <= buttonY + height / 5 + 25 &&
+      mouseIsPressed == true
+    ) {
+      balloonColor = "yellow";
     }
     console.log(gameState);
     //Game
@@ -319,6 +377,7 @@ function draw() {
     clear();
     scenery();
     checkHelium();
+
     fill(255, 120, 160);
     textAlign(RIGHT);
     textFont(informationText);
@@ -336,22 +395,31 @@ function draw() {
     drawBunny();
     balloon(speed * -1);
     pop();
-    
+
     //calculate speed of bunny
     bunnyMovedY = bunnyMovedY + speed;
     speed = speed + acceleration;
-    
+
     //control bunny acceleration
-    if ((keyIsDown(38) || keyIsDown(87)) || keyIsDown(32) && helium > 0) {
+    if ((keyIsDown(38) || keyIsDown(87) || keyIsDown(32)) && helium > 0) {
       //acceleration up from ground
-      acceleration = -0.03;
+      if (balloonColor == "pink") {
+        acceleration = -0.03;
+      } else if (balloonColor == "blue") {
+        acceleration = -0.015;
+      } else if (balloonColor == "yellow") {
+        acceleration = -0.007;
+      }
     } else {
       //Acceleration towards ground
-      acceleration = 0.03;
+      if (balloonColor == "pink") {
+        acceleration = 0.03;
+      } else if (balloonColor == "blue") {
+        acceleration = 0.05;
+      } else if (balloonColor == "yellow") {
+        acceleration = 0.11;
+      }
     }
-    //Checks in the console
-    console.log(gameState);
-
 
     checkWinLose();
   } else if (gameState == "win") {
@@ -362,7 +430,7 @@ function draw() {
     scale((2 / 1500) * height);
     drawBunny();
     pop();
-    
+
     //win screen
     push();
     rectMode(CENTER);
@@ -372,34 +440,26 @@ function draw() {
     winBackground();
     fill(255, 83, 120);
     rect(buttonX, buttonY, 200, 50, 20); //drawing my button with rouned corners.
-    
+
     textFont(informationText);
     textSize(60);
     fill(255);
     text("CONGRATS, YOU WON", buttonX, buttonY / 2);
-    
+
     fill(255);
     textFont(informationText);
     textSize(30);
-    text("WITH A HELIUM GAS OF " + Math.floor(helium) + ".", buttonX, buttonY / 1.4);
-    
+    text(
+      "WITH A HELIUM GAS OF " + Math.floor(helium) + ".",
+      buttonX,
+      buttonY / 1.4
+    );
+
     textSize(25);
     textFont(informationText);
     fill(255);
     text("PLAY AGAIN", buttonX, buttonY * 1.03);
     pop();
-
-    
-    if (
-      //Since the button is 200px wide and defined from the center ButtonX
-      mouseX >= buttonX - 100 &&
-      mouseX <= buttonX + 100 &&
-      mouseY >= buttonY - 50 &&
-      mouseY <= buttonY + 50 &&
-      mouseIsPressed == true
-      ) {
-      }
-      console.log(gameState);
   } else if (gameState == "lose") {
     scenery();
     push();
@@ -435,34 +495,10 @@ function draw() {
     fill(255);
     text("PLAY AGAIN", buttonX, buttonY * 1.03);
     pop();
-
-    if (
-      //Since the button is 200px wide and defined from the center ButtonX
-      mouseX >= buttonX - 100 &&
-      mouseX <= buttonX + 100 &&
-      mouseY >= buttonY - 50 &&
-      mouseY <= buttonY + 50 &&
-      mouseIsPressed == true
-    ) {
-      gameState = "game";
-    }
-
-    if (
-      //Since the button is 200px wide and defined from the center ButtonX
-      mouseX >= buttonX - 100 &&
-      mouseX <= buttonX + 100 &&
-      mouseY >= buttonY - 50 &&
-      mouseY <= buttonY + 50 &&
-      mouseIsPressed == true
-    ) {
-      gameState = "game";
-    }
-    console.log(gameState);
   }
   //Start or restart the game, reset values
   if (gameState == "start" || gameState == "win" || gameState == "lose") {
     if (
-      //Since the button is 200px wide and defined from the center ButtonX
       mouseX >= buttonX - 100 &&
       mouseX <= buttonX + 100 &&
       mouseY >= buttonY - 50 &&
@@ -472,7 +508,15 @@ function draw() {
       gameState = "game";
       bunnyMovedY = 0;
       speed = 0.05;
-      helium = 200;
+      if (balloonColor == "pink") {
+        helium = 200;
+      } else if (balloonColor == "blue") {
+        helium = 120;
+      } else if (balloonColor == "yellow") {
+        helium = 100;
+      }
+      //Checks in the console
+      console.log(gameState);
     }
   }
 }
